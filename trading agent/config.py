@@ -1,0 +1,68 @@
+"""
+Configuration settings for the AI Trading Agent
+"""
+import os
+
+# API Configuration
+CRYPTO_COM_API_KEY = os.getenv('CRYPTO_COM_API_KEY', '')
+CRYPTO_COM_SECRET_KEY = os.getenv('CRYPTO_COM_SECRET_KEY', '')
+API_BASE_URL = "https://api.crypto.com/v2/"
+
+# Agent Metabolism Settings
+INITIAL_GMAC = 1000.0
+HEARTBEAT_INTERVAL = 30  # seconds
+GMAC_HEARTBEAT_COST = 0.5
+GMAC_INFERENCE_BASE_COST = 1.0
+GMAC_TRADE_COST = 2.0
+GMAC_API_CALL_COST = 0.1
+
+# Survival Mode Thresholds
+GMAC_SURVIVAL_THRESHOLD = 100.0
+GMAC_CRITICAL_THRESHOLD = 20.0
+GMAC_DEATH_THRESHOLD = 0.0
+
+# Goodwill Settings
+INITIAL_GOODWILL = 0
+GOODWILL_PROFITABLE_TRADE = 10  # >5% profit
+GOODWILL_USER_THANKS = 5
+GOODWILL_TASK_COMPLETE = 3
+GOODWILL_HELP_AGENT = 2
+GOODWILL_BAD_TRADE = -8  # >10% loss
+GOODWILL_FAILED_TASK = -2
+
+# Goodwill Ability Unlocks
+GOODWILL_LEVEL_REPLICATE = 50
+GOODWILL_LEVEL_SELF_RECODE = 100
+GOODWILL_LEVEL_SWARM_LEADER = 200
+GOODWILL_LEVEL_ARCHITECT = 500
+
+# Trading Settings (Uniswap DEX)
+DEFAULT_TRADING_PAIR = "WETH_USDT"
+TRADING_PAIRS = ["WETH_USDT", "WETH_USDC", "USDC_USDT"]
+MIN_TRADE_AMOUNT = 10.0  # USDT
+MAX_TRADE_AMOUNT = 100.0  # USDT
+PROFIT_TARGET = 0.05  # 5%
+STOP_LOSS = 0.10  # 10%
+
+# Risk Management
+MAX_POSITION_SIZE = 0.25  # 25% of balance
+SURVIVAL_MODE_POSITION_SIZE = 0.10  # 10% in survival mode
+MAX_DAILY_TRADES = 20
+
+# Strategy Settings
+STRATEGY_TYPE = "momentum"  # momentum, mean_reversion, hybrid
+LOOKBACK_PERIOD = 20  # candles
+RSI_PERIOD = 14
+RSI_OVERSOLD = 30
+RSI_OVERBOUGHT = 70
+MA_FAST = 7
+MA_SLOW = 21
+
+# Logging
+LOG_LEVEL = "INFO"
+LOG_FILE = "trading_agent.log"
+
+# Safety Features
+ENABLE_PAPER_TRADING = True  # Set to False for live trading
+MAX_LOSS_PER_TRADE = 0.02  # 2% max loss per trade
+REQUIRE_MANUAL_APPROVAL = False  # Set to True to approve each trade

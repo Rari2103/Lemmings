@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>AI Trading Agent - Full Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #00d4ff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .status-bar {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        .status-item {
+            padding: 10px 20px;
+            background: rgba(0, 255, 136, 0.2);
+            border-radius: 20px;
+        }
+        .status-item.error {
+            background: rgba(255, 68, 68, 0.2);
+        }
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .card h2 {
+            color: #00d4ff;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+        .metric {
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .metric-label {
+            font-size: 0.9em;
+            color: #aaa;
+            margin-bottom: 5px;
+        }
+        .metric-value {
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+        .value-green { color: #00ff88; }
+        .value-red { color: #ff4444; }
+        .value-yellow { color: #ffaa00; }
+        .wallet-address {
+            font-size: 0.85em;
+            color: #666;
+            word-break: break-all;
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>AI Trading Agent Dashboard</h1>
+        <div class="status-bar">
+            <div id="connection-status" class="status-item">Connecting...</div>
+            <div id="wallet-short" class="status-item">Wallet: --</div>
+            <div id="agent-mode" class="status-item">Mode: --</div>
+        </div>
+    </div>
+    
+    <div class="cards">
+        <!-- Wallet Balance -->
+        <div class="card">
+            <h2>💰 Wallet Balance</h2>
+            <div id="wallet-balances">
+                <div class="metric">
+                    <div class="metric-label">Loading...</div>
+                </div>
+            </div>
+            <div id="wallet-addr" class="wallet-address">--</div>
+        </div>
+        
+        <!-- Agent Health -->
+        <div class="card">
+            <h2>🤖 Agent Health</h2>
+            <div class="metric">
+                <div class="metric-label">GMAC Energy</div>
+                <div id="gmac-value" class="metric-value value-green">1000.0</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">Goodwill Reputation</div>
+                <div id="goodwill-value" class="metric-value">0</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">Status</div>
+                <div id="agent-status" class="metric-value" style="font-size: 1.2em;">Initialized</div>
+            </div>
+        </div>
+        
+        <!-- Trading Performance -->
+        <div class="card">
+            <h2>📊 Trading Performance</h2>
+            <div class="metric">
+                <div class="metric-label">Total Trades</div>
+                <div id="total-trades" class="metric-value">0</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">Win / Loss</div>
+                <div id="win-loss" class="metric-value">0 / 0</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">Total P&L</div>
+                <div id="total-pnl" class="metric-value value-green">$0.00</div>
+            </div>
+        </div>
+        
+        <!-- Latest Signal -->
+        <div class="card">
+            <h2>📡 Latest Signal</h2>
+            <div id="latest-signal" class="metric">
+                <div class="metric-label">Waiting for signals...</div>
+            </div>
+        </div>
+        
+        <!-- Last Trade -->
+        <div class="card">
+            <h2>🔄 Last Trade</h2>
+            <div id="last-trade" class="metric">
+                <div class="metric-label">No trades yet</div>
+            </div>
+        </div>
+        
+        <!-- System Info -->
+        <div class="card">
+            <h2>ℹ️ System Info</h2>
+            <div class="metric">
+                <div class="metric-label">Trading Mode</div>
+                <div class="metric-value" style="font-size: 1.2em;">Paper Trading</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">Max Position Size</div>
+                <div class="metric-value" style="font-size: 1.2em;">25%</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        async function updateDashboard() {
+            try {
+                // Get wallet data
+                const walletResp = await fetch('/api/wallet');
+                const walletData = await walletResp.json();
+                
+                // Get agent data
+                const agentResp = await fetch('/api/agent');
+                const agentData = await agentResp.json();
+                
+                // Update connection status
+                const connStatus = document.getElementById('connection-status');
+                if (walletData.connected) {
+                    connStatus.textContent = 'Connected';
+                    connStatus.className = 'status-item';
+                } else {
+                    connStatus.textContent = 'Disconnected';
+                    connStatus.className = 'status-item error';
+                }
+                
+                // Update wallet
+                if (walletData.balances) {
+                    let html = '';
+                    let totalUsd = 0;
+                    for (const [token, amount] of Object.entries(walletData.balances)) {
+                        const usdValue = token === 'USDC' ? amount : 
+                                       token === 'ETH' ? amount * 2500 : 0;
+                        totalUsd += usdValue;
+                        html += `
+                            <div class="metric">
+                                <div class="metric-label">${token}</div>
+                                <div class="metric-value value-green">${amount.toFixed(6)}</div>
+                                <div class="metric-label">≈ $${usdValue.toFixed(2)}</div>
+                            </div>
+                        `;
+                    }
+                    document.getElementById('wallet-balances').innerHTML = html;
+                    document.getElementById('wallet-short').textContent = 
+                        `Wallet: $${totalUsd.toFixed(2)}`;
+                }
+                
+                document.getElementById('wallet-addr').textContent = 
+                    `Address: ${walletData.address}`;
+                
+                // Update agent
+                document.getElementById('gmac-value').textContent = agentData.gmac.toFixed(1);
+                document.getElementById('goodwill-value').textContent = agentData.goodwill;
+                document.getElementById('agent-status').textContent = agentData.status;
+                document.getElementById('total-trades').textContent = agentData.trades;
+                document.getElementById('win-loss').textContent = 
+                    `${agentData.wins} / ${agentData.losses}`;
+                
+                const pnl = agentData.total_pnl;
+                const pnlEl = document.getElementById('total-pnl');
+                pnlEl.textContent = `$${pnl.toFixed(2)}`;
+                pnlEl.className = pnl >= 0 ? 'metric-value value-green' : 'metric-value value-red';
+                
+                // Update mode
+                const gmac = agentData.gmac;
+                let mode = 'Normal';
+                if (gmac < 20) mode = 'Critical';
+                else if (gmac < 100) mode = 'Survival';
+                document.getElementById('agent-mode').textContent = `Mode: ${mode}`;
+                
+                // Update signal
+                if (agentData.last_signal) {
+                    document.getElementById('latest-signal').innerHTML = `
+                        <div class="metric-label">${agentData.last_signal.action}</div>
+                        <div class="metric-value">${agentData.last_signal.symbol || '--'}</div>
+                        <div class="metric-label">Confidence: ${(agentData.last_signal.confidence * 100).toFixed(1)}%</div>
+                    `;
+                }
+                
+                // Update last trade
+                if (agentData.last_trade) {
+                    document.getElementById('last-trade').innerHTML = `
+                        <div class="metric-label">${agentData.last_trade.side} ${agentData.last_trade.symbol}</div>
+                        <div class="metric-value">$${agentData.last_trade.price.toFixed(2)}</div>
+                        <div class="metric-label">Qty: ${agentData.last_trade.quantity.toFixed(6)}</div>
+                    `;
+                }
+                
+            } catch (error) {
+                console.error('Update error:', error);
+                document.getElementById('connection-status').textContent = 'Error';
+                document.getElementById('connection-status').className = 'status-item error';
+            }
+        }
+        
+        // Initial load
+        updateDashboard();
+        
+        // Auto-refresh every 5 seconds
+        setInterval(updateDashboard, 5000);
+    </script>
+</body>
+</html>

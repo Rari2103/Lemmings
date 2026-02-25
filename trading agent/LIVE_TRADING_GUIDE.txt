@@ -1,0 +1,201 @@
+=================================================================
+          LIVE TRADING SETUP - $10 LIMIT MODE
+=================================================================
+
+IMPORTANT: This will use REAL MONEY from your wallet!
+
+=================================================================
+SAFETY FEATURES:
+=================================================================
+
+✓ $10 maximum spending limit
+✓ Manual confirmation for EVERY trade
+✓ Emergency stop (Ctrl+C)
+✓ Real-time balance monitoring
+✓ Detailed trade logging
+✓ Private key stored locally (never transmitted)
+
+=================================================================
+STEP-BY-STEP SETUP:
+=================================================================
+
+STEP 1: Get Your Private Key
+--------------------------------------------------------------------
+1. Open MetaMask (or your wallet app)
+2. Click the three dots menu
+3. Account Details → Show Private Key
+4. Enter your password
+5. Copy the private key (starts with 0x)
+
+⚠️  NEVER share this key with anyone!
+
+STEP 2: Run Setup Script
+--------------------------------------------------------------------
+Double-click: SETUP_WALLET.bat
+
+The script will ask for:
+  - Your private key (paste it)
+  - Confirm wallet address
+  - Set spending limit (enter 10 for $10)
+
+Your private key will be stored in .env file (secure, local only)
+
+STEP 3: Start Live Trading
+--------------------------------------------------------------------
+Double-click: START_LIVE_TRADING.bat
+
+The agent will:
+  1. Verify your wallet access
+  2. Check your balance (29 USDC)
+  3. Start monitoring market
+  4. Show trading signals
+  5. Ask for confirmation before each trade
+
+=================================================================
+WHAT HAPPENS WHEN TRADING:
+=================================================================
+
+Example Trading Sequence:
+--------------------------------------------------------------------
+
+1. Agent detects signal:
+   "BUY Signal: ETH/USDC
+    Confidence: 78%
+    Amount: $8.50 (3% of balance)
+    
+    Approve this trade? (yes/no): _"
+
+2. You type "yes" or "no"
+
+3. If yes:
+   - Agent prepares transaction
+   - Shows gas fee estimate
+   - Asks final confirmation
+   - Executes on Uniswap
+   - Updates balance
+
+4. Continues monitoring for next signal
+
+=================================================================
+BUDGET TRACKING:
+=================================================================
+
+Starting Budget: $10.00
+After Trade 1: $10.00 - $8.50 = $1.50 remaining
+After Trade 2: Can't trade (insufficient budget)
+
+Agent stops when:
+  - $10 budget exhausted
+  - You press Ctrl+C
+  - USDC runs out
+
+=================================================================
+COSTS INVOLVED:
+=================================================================
+
+Trading Costs:
+  - Spread: ~0.3% (Uniswap fee)
+  - Slippage: 0.5-1% (market movement)
+  - Gas fees: $2-10 per transaction (paid in ETH)
+
+Example Trade Cost Breakdown:
+  Trade amount: $8.50 USDC
+  Uniswap fee: ~$0.026
+  Gas fee: ~$3 (in ETH)
+  Total cost: ~$3.03 for one swap
+
+⚠️  You need ETH for gas fees!
+    Your wallet has: [check your ETH balance]
+    Recommended: At least 0.005 ETH (~$12)
+
+=================================================================
+WHAT TO EXPECT:
+=================================================================
+
+First Run:
+  - Verifies private key works
+  - Checks balances
+  - Monitors market
+  - Shows signals
+  - Waits for your approval
+
+When Signal Appears:
+  - Explains why (RSI, MA, etc.)
+  - Shows confidence percentage
+  - Displays trade amount
+  - Asks yes/no confirmation
+
+After Approval:
+  - Estimates gas fee
+  - Prepares transaction
+  - Broadcasts to blockchain
+  - Waits for confirmation (~15 seconds)
+  - Updates dashboard
+
+=================================================================
+EMERGENCY PROCEDURES:
+=================================================================
+
+To Stop Trading:
+  Press Ctrl+C in the terminal
+
+To Change Limits:
+  Edit .env file:
+    MAX_TRADE_AMOUNT_USD=5.0
+    TOTAL_BUDGET_USD=5.0
+
+To Disable Confirmations (NOT RECOMMENDED):
+  Edit .env file:
+    REQUIRE_CONFIRMATION=false
+
+=================================================================
+CURRENT STATUS:
+=================================================================
+
+Your Wallet: 0x83cc3b8731f6344D7DA6529566D94ACf30271C08
+Balance: 29 USDC + some ETH (check)
+Trading Limit: $10
+Confirmation: Required
+
+Ready to trade? Follow these steps:
+
+1. Run: SETUP_WALLET.bat
+2. Enter your private key
+3. Run: START_LIVE_TRADING.bat
+4. Wait for trading signals
+5. Approve/reject each trade
+
+=================================================================
+QUESTIONS BEFORE STARTING:
+=================================================================
+
+Q: Do I need to enter private key every time?
+A: No, only once during setup
+
+Q: Can I change the $10 limit?
+A: Yes, edit .env file anytime
+
+Q: What if I lose money?
+A: That's the risk of trading. Start small!
+
+Q: How do I know if a trade is good?
+A: Agent shows confidence %, reasons, and you decide
+
+Q: Can the agent drain my wallet?
+A: No - $10 limit prevents that
+
+Q: Is my private key safe?
+A: Stored locally, never transmitted, .gitignore protected
+
+=================================================================
+READY TO START?
+=================================================================
+
+1. Make sure you have your private key ready
+2. Double-click SETUP_WALLET.bat
+3. Follow the prompts
+4. Then double-click START_LIVE_TRADING.bat
+
+Good luck! 🍀
+
+=================================================================

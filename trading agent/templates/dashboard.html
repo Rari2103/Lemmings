@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>AI Trading Agent Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #00d4ff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .status {
+            display: inline-block;
+            padding: 10px 20px;
+            background: rgba(0, 255, 136, 0.2);
+            border-radius: 20px;
+            margin-top: 10px;
+        }
+        .status.disconnected {
+            background: rgba(255, 68, 68, 0.2);
+        }
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .card h2 {
+            color: #00d4ff;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+        .balance-item {
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .balance-label {
+            font-size: 0.9em;
+            color: #aaa;
+        }
+        .balance-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #00ff88;
+            margin-top: 5px;
+        }
+        .wallet-address {
+            font-size: 0.9em;
+            color: #aaa;
+            word-break: break-all;
+            margin-top: 10px;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>AI Trading Agent Dashboard</h1>
+        <div id="status" class="status">Connecting...</div>
+    </div>
+    
+    <div class="cards">
+        <div class="card">
+            <h2>💰 Wallet Balance</h2>
+            <div id="wallet-content" class="loading">Loading wallet data...</div>
+        </div>
+        
+        <div class="card">
+            <h2>🤖 Agent Status</h2>
+            <div class="balance-item">
+                <div class="balance-label">GMAC Energy</div>
+                <div class="balance-value">1000.0</div>
+            </div>
+            <div class="balance-item">
+                <div class="balance-label">Goodwill</div>
+                <div class="balance-value">0</div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>📊 Trading Stats</h2>
+            <div class="balance-item">
+                <div class="balance-label">Total Trades</div>
+                <div class="balance-value">0</div>
+            </div>
+            <div class="balance-item">
+                <div class="balance-label">Win Rate</div>
+                <div class="balance-value">0%</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        async function fetchWallet() {
+            try {
+                const response = await fetch('/api/wallet');
+                const data = await response.json();
+                
+                const statusEl = document.getElementById('status');
+                const walletContent = document.getElementById('wallet-content');
+                
+                if (data.connected) {
+                    statusEl.textContent = '✅ Connected';
+                    statusEl.className = 'status';
+                    
+                    let html = '';
+                    for (const [token, amount] of Object.entries(data.balances)) {
+                        html += `
+                            <div class="balance-item">
+                                <div class="balance-label">${token}</div>
+                                <div class="balance-value">${amount.toFixed(6)}</div>
+                            </div>
+                        `;
+                    }
+                    html += `<div class="wallet-address">Wallet: ${data.address}</div>`;
+                    walletContent.innerHTML = html;
+                } else {
+                    statusEl.textContent = '❌ Disconnected';
+                    statusEl.className = 'status disconnected';
+                    walletContent.innerHTML = '<div style="color: #ff4444;">Failed to load wallet</div>';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('status').textContent = '❌ Error';
+                document.getElementById('status').className = 'status disconnected';
+            }
+        }
+        
+        // Load wallet on page load
+        fetchWallet();
+        
+        // Refresh every 10 seconds
+        setInterval(fetchWallet, 10000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+====================================================================
+              AI TRADING AGENT - QUICK START GUIDE
+====================================================================
+
+YOUR SETUP IS COMPLETE!
+
+====================================================================
+1. HOW TO LAUNCH (No VS Studio Needed!)
+====================================================================
+
+METHOD 1: Double-Click Files
+--------------------------------------------------------------------
+Go to: C:\Users\ttosh\trading_agent\
+
+Double-click:
+  • START_DASHBOARD.bat    → Open web dashboard
+  • CHECK_WALLET.bat       → Check balance quickly
+
+METHOD 2: Create Desktop Shortcut
+--------------------------------------------------------------------
+1. Navigate to: C:\Users\ttosh\trading_agent\
+2. Right-click "START_DASHBOARD.bat"
+3. Choose "Send to" → "Desktop (create shortcut)"
+4. Rename to "AI Trading Agent"
+5. Done! Click desktop icon to launch
+
+====================================================================
+2. WEB DASHBOARD (Currently Running!)
+====================================================================
+
+URL: http://localhost:5000
+
+You should see:
+  √ Wallet Balance: 29 USDC
+  √ Agent Status: GMAC 1000.0
+  √ Trading Stats: Ready to trade
+  √ Real-time updates
+
+====================================================================
+3. WHAT YOU HAVE RIGHT NOW
+====================================================================
+
+✓ Real wallet connected: 0x83cc...271C08
+✓ Balance: 29 USDC (verified)
+✓ Web dashboard: Live and running
+✓ Agent: Ready to trade
+✓ Desktop launchers: Created
+
+====================================================================
+4. WHAT HAPPENS NEXT - YOUR CHOICE
+====================================================================
+
+OPTION A: WATCH MODE (Safe - Recommended First)
+--------------------------------------------------------------------
+• Agent monitors market
+• Shows trading signals  
+• Tracks what it WOULD do
+• NO real trades
+• Zero risk
+• Learn how it works
+
+OPTION B: LIVE TRADING ($10-15 limit)
+--------------------------------------------------------------------
+• Agent makes REAL trades
+• Uses your 29 USDC
+• Actual swaps on Uniswap
+• REAL money at risk
+• Could profit or lose
+• Requires private key
+
+====================================================================
+5. CURRENT STATUS
+====================================================================
+
+Dashboard: RUNNING at http://localhost:5000
+Wallet: CONNECTED (29 USDC available)
+Agent: INITIALIZED (Paper trading mode)
+UI: VISIBLE in browser
+
+====================================================================
+6. QUESTIONS TO ANSWER
+====================================================================
+
+1. Can you see the web dashboard in your browser?
+   → Should show wallet balance and agent status
+
+2. Does it show 29 USDC?
+   → Confirms wallet connection works
+
+3. Ready for next step?
+   → Option A (watch mode) or Option B (live trading)
+
+====================================================================
+7. FILES YOU CAN USE
+====================================================================
+
+In: C:\Users\ttosh\trading_agent\
+
+Launchers:
+  START_DASHBOARD.bat   - Open web UI
+  CHECK_WALLET.bat      - Quick balance check
+
+Demos:
+  demo_guaranteed_trade.py  - See how trading works
+  check_wallet.py          - Detailed wallet info
+
+Documentation:
+  DESKTOP_USAGE.md     - How to use without VS Studio
+  FUNDS_EXPLAINED.md   - Where your money is
+  WEB_UI_GUIDE.md      - Dashboard features
+
+====================================================================
+8. WHAT TO DO RIGHT NOW
+====================================================================
+
+1. Look at your browser (http://localhost:5000)
+2. Verify you see your wallet balance
+3. Tell me what you see!
+4. Then we'll decide: Watch mode or Live trading?
+
+====================================================================
+
+REMEMBER: You can always just double-click START_DASHBOARD.bat
+          No coding, no VS Studio - just click and go!
+
+====================================================================
